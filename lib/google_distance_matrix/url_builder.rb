@@ -21,7 +21,14 @@ module GoogleDistanceMatrix
     private
 
     def build_url
-      url = [protocol, BASE_URL, "?", get_params_string].join
+
+      setup_url = [protocol, BASE_URL, "?", get_params_string]
+
+      if api_key?
+        setup_url << configuration.api_key
+      end
+
+      url = setup_url.join
 
       if sign_url?
         url = GoogleBusinessApiUrlSigner.add_signature(url, configuration.google_business_api_private_key)
@@ -37,6 +44,10 @@ module GoogleDistanceMatrix
     def sign_url?
       configuration.google_business_api_client_id.present? and
       configuration.google_business_api_private_key.present?
+    end
+
+    def api_key?
+      configuration.api_key.present?
     end
 
     def get_params_string
