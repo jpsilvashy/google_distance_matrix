@@ -24,14 +24,14 @@ module GoogleDistanceMatrix
 
       setup_url = [protocol, BASE_URL, "?", get_params_string]
 
-      if api_key?
-        setup_url << configuration.key
-      end
-
       url = setup_url.join
 
       if sign_url?
         url = GoogleBusinessApiUrlSigner.add_signature(url, configuration.google_business_api_private_key)
+      end
+
+      if api_key?
+        url += "&key=#{configuration.key}"
       end
 
       if url.length > MAX_URL_SIZE
