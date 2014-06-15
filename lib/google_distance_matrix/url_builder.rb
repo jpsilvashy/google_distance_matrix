@@ -25,7 +25,7 @@ module GoogleDistanceMatrix
       setup_url = [protocol, BASE_URL, "?", get_params_string]
 
       if api_key?
-        setup_url << configuration.api_key
+        setup_url << configuration.key
       end
 
       url = setup_url.join
@@ -47,7 +47,7 @@ module GoogleDistanceMatrix
     end
 
     def api_key?
-      configuration.api_key.present?
+      configuration.key.present?
     end
 
     def get_params_string
